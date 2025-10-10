@@ -6,7 +6,7 @@ import { Question } from '../../../challenge/domain/entity/Question';
 export class TemplateContent {
   private position: string;
   private nickname: string;
-  private company: string;
+  public company: string;
   private companyPublic: boolean;
   private profile: string | null;
   private questionId: number;
