@@ -11,8 +11,11 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         (req) => {
-          const token = req?.cookies?.access_token;
-          console.log('[JwtStrategy] 🔍 Raw cookie access_token before verify:', token);
+          let token = req?.cookies?.access_token;
+          if (token?.startsWith('Bearer ')) {
+            token = token.slice(7);
+          }
+          console.log('[JwtStrategy] 🔍 Cleaned access_token before verify:', token);
           return token;
         },
       ]),
