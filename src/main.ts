@@ -17,12 +17,13 @@ async function bootstrap() {
   initializeTransactionalContext();
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    // origin: [
-    //   // 'https://grafana.writon.co.kr',
-    //   // 'https://api.writon.co.kr',
-    //   // 'https://www.writon.co.kr',
-    // ],
-    origin: '*',
+    origin: [
+      'https://grafana.writon.co.kr',
+      'https://api.writon.co.kr',
+      'https://www.writon.co.kr',
+      'localhost:5173',
+    ],
+    //origin: '*',
     credentials: true,
     exposedHeaders: ['Authorization'], // * 사용할 헤더 추가.
   });
