@@ -21,7 +21,7 @@ async function bootstrap() {
       'https://grafana.writon.co.kr',
       'https://api.writon.co.kr',
       'https://www.writon.co.kr',
-      'localhost:5173',
+      'http://localhost:5173',
     ],
     //origin: '*',
     credentials: true,
