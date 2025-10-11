@@ -1,8 +1,8 @@
 import { InternalServerErrorException } from '@nestjs/common';
 
 export class LoginResponse {
-  private accessToken: string;
-  private refreshToken: string;
+  public accessToken?: string;
+  public refreshToken?: string;
   private role: string;
   private affiliatedConfirmation: boolean | null;
   private challengedConfirmation: boolean | null;

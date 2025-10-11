@@ -103,6 +103,7 @@ export class AuthService {
     const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(
       loginLocal.getIdentifier(),
     );
+    console.log(userData);
     this.authVerifyService.vefifyIdentifier(userData);
     await this.authVerifyService.verifyPassword(loginLocal.getPassword(), userData.getPassword());
     const accessToken = this.jwtManager.makeAccessToken(userData.getId(), userData.getRole());

@@ -9,6 +9,8 @@ import { SwaggerModule } from '@nestjs/swagger';
 import { BaseAPIDocument } from './swagger.documment';
 import { MetricsInterceptor } from './global/monitor/MetricsInterceptor';
 import { initializeTransactionalContext } from 'typeorm-transactional';
+import cookieParser from 'cookie-parser';
+
 // import * as crypto from 'crypto';
 // (globalThis as any).crypto = crypto;
 async function bootstrap() {
@@ -26,6 +28,7 @@ async function bootstrap() {
   });
   app.useGlobalInterceptors(app.get(MetricsInterceptor));
   const config = app.get<ConfigService<ConfigObject, true>>(ConfigService);
+  app.use(cookieParser());
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(new ValidationPipe(config.get('validation')));
   useContainer(app.select(AppModule), { fallbackOnErrors: true });

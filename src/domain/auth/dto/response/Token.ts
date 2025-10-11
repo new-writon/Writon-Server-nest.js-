@@ -1,8 +1,8 @@
 import { InternalServerErrorException } from '@nestjs/common';
 
 export class Token {
-  private accessToken: string;
-  private refreshToken: string;
+  public accessToken: string;
+  public refreshToken: string;
 
   constructor(accessToken: string, refreshToken: string) {
     this.setAccessToken(accessToken);
