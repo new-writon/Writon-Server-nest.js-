@@ -41,14 +41,14 @@ export class AuthController {
     );
     res.cookie('access_token', result.accessToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 1000 * 60 * 60 * 24 * 7,
     });
     res.cookie('refresh_token', result.refreshToken, {
       httpOnly: true,
-      secure: true, // HTTPS 환경에서만 전송됨
-      sameSite: 'strict', // CSRF 방지
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 1000 * 60 * 60 * 24 * 7,
     });
     const { accessToken, refreshToken, ...responseBody } = result;
@@ -132,8 +132,8 @@ export class AuthController {
   async checkAccessToken(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const accessToken = req.cookies['access_token'];
     if (!accessToken) {
-      throw new UnauthorizedException('access token not found');
+      return SuccessResponseDto.of({ token: false });
     }
-    return SuccessResponseDto.of(null);
+    return SuccessResponseDto.of({ token: true });
   }
 }
