@@ -23,7 +23,7 @@ async function bootstrap() {
     //   // 'https://www.writon.co.kr',
     // ],
     origin: '*',
-    // credentials: true,
+    credentials: true,
     exposedHeaders: ['Authorization'], // * 사용할 헤더 추가.
   });
   app.useGlobalInterceptors(app.get(MetricsInterceptor));

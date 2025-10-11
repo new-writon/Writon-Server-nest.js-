@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpCode,
   Logger,
   Post,
@@ -124,6 +125,15 @@ export class AuthController {
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       path: '/',
     });
+    return SuccessResponseDto.of(null);
+  }
+
+  @Get('cookie/access-token')
+  async checkAccessToken(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    const refreshToken = req.cookies['refresh_token'];
+    if (!refreshToken) {
+      throw new UnauthorizedException('Refresh token not found');
+    }
     return SuccessResponseDto.of(null);
   }
 }
