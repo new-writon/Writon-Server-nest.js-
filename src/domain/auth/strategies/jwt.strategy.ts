@@ -11,11 +11,14 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       jwtFromRequest: ExtractJwt.fromExtractors([(req) => req?.cookies?.access_token]),
       secretOrKey: secret,
       ignoreExpiration: false,
-      passReqToCallback: false,
+      passReqToCallback: true,
     });
   }
 
-  async validate(payload: any) {
+  async validate(req: Request & { cookies?: Record<string, string> }, payload: any) {
+    console.log('[JwtStrategy] Cookie access_token:', req.cookies?.access_token);
+    console.log('[JwtStrategy] Payload:', payload);
+
     return {
       userId: payload.userId,
       role: payload.role,
