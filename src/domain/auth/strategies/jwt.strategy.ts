@@ -7,8 +7,15 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(private readonly configService: ConfigService) {
     const secret = configService.get<string>('jwt.secret');
+
     super({
-      jwtFromRequest: ExtractJwt.fromExtractors([(req) => req?.cookies?.access_token]),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (req) => {
+          const token = req?.cookies?.access_token;
+          console.log('[JwtStrategy] 🔍 Raw cookie access_token before verify:', token);
+          return token;
+        },
+      ]),
       secretOrKey: secret,
       ignoreExpiration: false,
       passReqToCallback: true,
@@ -16,9 +23,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(req: Request & { cookies?: Record<string, string> }, payload: any) {
-    console.log('[JwtStrategy] Cookie access_token:', req.cookies?.access_token);
-    console.log('[JwtStrategy] Payload:', payload);
-
+    console.log('[JwtStrategy] ✅ Decoded payload after verify:', payload);
     return {
       userId: payload.userId,
       role: payload.role,
