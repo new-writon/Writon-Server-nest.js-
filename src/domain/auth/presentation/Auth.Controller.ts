@@ -130,9 +130,9 @@ export class AuthController {
 
   @Get('cookie/access-token')
   async checkAccessToken(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
-    const refreshToken = req.cookies['refresh_token'];
-    if (!refreshToken) {
-      throw new UnauthorizedException('Refresh token not found');
+    const accessToken = req.cookies['access_token'];
+    if (!accessToken) {
+      throw new UnauthorizedException('access token not found');
     }
     return SuccessResponseDto.of(null);
   }
